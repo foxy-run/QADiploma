@@ -139,5 +139,22 @@ public class Data {
         return new Cvv("12");
     }
 
+    @Value
+    public static class CardData {
+        String CardNumber;
+        String NumberOfMonth;
+        String Year;
+        String Cardholder;
+        String Cvv;
+    }
+
+    public static CardData getApprovedCard() {
+        return new CardData("4444444444444441", "09", "24", "Popov Igor", "123");
+    }
+
+    public static CardData getDeclinedCard() {
+        return new CardData("4444444444444442", "09", "24", "Popov Igor", "123");
+    }
+
 }
 
