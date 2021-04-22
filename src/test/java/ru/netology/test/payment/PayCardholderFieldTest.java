@@ -46,13 +46,6 @@ public class PayCardholderFieldTest {
 
 
     @Test
-    public void shouldFailurePaymentIfNameThreeWords() {
-        val cardholder = getInvalidCardholderNameIfThreeWords();
-        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.improperFormatNotification();
-    }
-
-    @Test
     public void shouldFailurePaymentIfEmptyCardholderName() {
         val cardholder = getInvalidCardholderNameIfEmpty();
         paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
@@ -66,21 +59,26 @@ public class PayCardholderFieldTest {
         paymentPage.improperFormatNotification();
     }
 
+    @Test
+    public void shouldFailurePaymentIfNameNumeric() {
+        val cardholder = getInvalidCardholderNameIfNumeric();
+        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
+        paymentPage.improperFormatNotification();
+    }
 
+    @Test
+    public void shouldFailurePaymentIfNameThreeWords() {
+        val cardholder = getInvalidCardholderNameIfThreeWords();
+        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
+        paymentPage.improperFormatNotification();
+    }
 
-//    @Test
-//    public void shouldFailurePaymentIfNameRusSym() {
-//        val cardholder = getInvalidCardholderNameIfRusSym();
-//        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-//        paymentPage.improperFormatNotification();
-//    }
-//
-//    @Test
-//    public void shouldFailurePaymentIfNameNumeric() {
-//        val cardholder = getInvalidCardholderNameIfNumeric();
-//        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-//        paymentPage.improperFormatNotification();
-//    }
+    @Test
+    public void shouldFailurePaymentIfNameRusSym() {
+        val cardholder = getInvalidCardholderNameIfRusSym();
+        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
+        paymentPage.improperFormatNotification();
+    }
 
     @Test
     public void shouldFailurePaymentIfNameWildcard() {
