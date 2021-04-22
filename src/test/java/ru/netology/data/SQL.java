@@ -7,6 +7,12 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 import java.sql.*;
 
 public class SQL {
+
+    private static final String sutUrl = System.getProperty("db.url");
+    private static final String user = System.getProperty("db.user");
+    private static final String password = System.getProperty("db.password");
+    private static Connection connection;
+
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/app", "app", "pass");

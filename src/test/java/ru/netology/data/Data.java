@@ -6,154 +6,116 @@ import lombok.Value;
 @NoArgsConstructor
 public class Data {
     @Value
-    public static class CardNumber {
-        String CardNumber;
+    public static class CardData {
+        String number;
+        String month;
+        String year;
+        String holder;
+        String cvv;
+
+        public static CardData getApprovedCard() {
+            return new CardData("4444 4444 4444 4441", "09", "24", "Popov Igor", "123");
+        }
+        public static CardData getDeclinedCard() {
+            return new CardData("4444 4444 4444 4442", "09", "24", "Popov Igor", "123");
+        }
+
+
     }
 
-    public static CardNumber getValidCardNumberApproved() {
-        return new CardNumber("4444444444444441");
+    public static CardData getInvalidCardNumberIfEmpty() {
+        return new CardData("", "09", "24", "Popov Igor", "123");
     }
 
-    public static CardNumber getValidCardNumberDeclined() {
-        return new CardNumber("4444444444444442");
-    }
-
-    public static CardNumber getInvalidCardNumberIfEmpty() {
-        return new CardNumber("");
-    }
-
-    public static CardNumber getInvalidCardNumberIfLess16Sym() {
-        return new CardNumber("4444444444444");
-    }
-
-    public static CardNumber getInvalidCardNumberIfOutOfBase() {
-        return new CardNumber("5469444444444441");
-    }
-
-
-    @Value
-    public static class NumberOfMonth {
-        String NumberOfMonth;
-    }
-
-    public static NumberOfMonth getValidNumberOfMonth() {
-        return new NumberOfMonth("09");
-    }
-
-    public static NumberOfMonth getInvalidNumberOfMonthIfEmpty() {
-        return new NumberOfMonth("");
-    }
-
-    public static NumberOfMonth getInvalidNumberOfMonthIfOneSym() {
-        return new NumberOfMonth("1");
-    }
-
-    public static NumberOfMonth getInvalidNumberOfMonthIfMore12() {
-        return new NumberOfMonth("20");
-    }
-
-    public static NumberOfMonth getInvalidNumberOfMonthIfZero() {
-        return new NumberOfMonth("00");
+    public static CardData getInvalidCardNumberIfLess16Sym() {
+        return new CardData("4444 4444 4444 4", "09", "24", "Popov Igor", "123");
     }
 
     @Value
-    public static class Year {
-        String Year;
+    public static CardData getInvalidCardNumberIfOutOfBase() {
+        return new CardData("5469 4444 4444 4441", "09", "24", "Popov Igor", "123");
     }
 
     public static Year getValidYear() {
         return new Year("24");
     }
 
-    public static Year getInvalidYearIfEmpty() {
-        return new Year("");
+    public static CardData getInvalidNumberOfMonthIfEmpty() {
+        return new CardData("4444 4444 4444 4441", "", "24", "Popov Igor", "123");
     }
 
-    public static Year getInvalidYearIfOneSym() {
-        return new Year("1");
+    public static CardData getInvalidNumberOfMonthIfOneSym() {
+        return new CardData("4444 4444 4444 4441", "1", "24", "Popov Igor", "123");
     }
 
-    public static Year getInvalidYearIfBeforeCurrentYear() {
-        return new Year("19");
+    public static CardData getInvalidNumberOfMonthIfMore12() {
+        return new CardData("4444 4444 4444 4441", "20", "24", "Popov Igor", "123");
     }
 
-    public static Year getInvalidYearIfZero() {
-        return new Year("00");
+    public static CardData getInvalidNumberOfMonthIfZero() {
+        return new CardData("4444 4444 4444 4441", "00", "24", "Popov Igor", "123");
     }
 
-    public static Year getInvalidYearIfInTheFarFuture() {
-        return new Year("40");
-    }
 
     @Value
     public static class Cardholder {
         String Cardholder;
     }
 
-    public static Cardholder getValidCardholderName() {
-        return new Cardholder("Popov Igor");
+    public static CardData getInvalidYearIfOneSym() {
+        return new CardData("4444 4444 4444 4441", "09", "1", "Popov Igor", "123");
     }
 
-    public static Cardholder getInvalidCardholderNameIfEmpty() {
-        return new Cardholder("");
+    public static CardData getInvalidYearIfBeforeCurrentYear() {
+        return new CardData("4444 4444 4444 4441", "09", "19", "Popov Igor", "123");
     }
 
-    public static Cardholder getInvalidCardholderNameIfOneWord() {
-        return new Cardholder("Popov");
+    public static CardData getInvalidYearIfZero() {
+        return new CardData("4444 4444 4444 4441", "09", "00", "Popov Igor", "123")
     }
 
-    public static Cardholder getInvalidCardholderNameIfThreeWords() {
-        return new Cardholder("Popov Igor Petrovich");
+    public static CardData getInvalidYearIfInTheFarFuture() {
+        return new CardData("4444 4444 4444 4441", "09", "40", "Popov Igor", "123");
     }
 
-    public static Cardholder getInvalidCardholderNameIfRusSym() {
-        return new Cardholder("Попов Игорь");
+
+
+    public static CardData getInvalidCardholderNameIfEmpty() {
+        return new CardData("4444 4444 4444 4441", "09", "24", "", "123");
     }
 
-    public static Cardholder getInvalidCardholderNameIfNumeric() {
-        return new Cardholder("5432 3232");
-    }
-
-    public static Cardholder getInvalidCardholderNameIfWildcard() {
-        return new Cardholder("#%№");
-    }
-
-    @Value
-    public static class Cvv {
-        String Cvv;
-    }
-
-    public static Cvv getValidCvv() {
-        return new Cvv("123");
-    }
-
-    public static Cvv getInvalidCvvIfEmpty() {
-        return new Cvv("");
-    }
-
-    public static Cvv getInvalidCvvIfOneSym() {
-        return new Cvv("1");
-    }
-
-    public static Cvv getInvalidCvvIfTwoSym() {
-        return new Cvv("12");
+    public static CardData getInvalidCardholderNameIfOneWord() {
+        return new CardData("4444 4444 4444 4441", "09", "24", "Popov", "123");
     }
 
     @Value
-    public static class CardData {
-        String CardNumber;
-        String NumberOfMonth;
-        String Year;
-        String Cardholder;
-        String Cvv;
+    public static CardData getInvalidCardholderNameIfThreeWords() {
+        return new CardData("4444 4444 4444 4441", "09", "24", "Popov Igor Petrovich", "123");
     }
 
-    public static CardData getApprovedCard() {
-        return new CardData("4444444444444441", "09", "24", "Popov Igor", "123");
+    public static CardData getInvalidCardholderNameIfRusSym() {
+        return new CardData("4444 4444 4444 4441", "09", "24", "Попов Игорь", "123");
     }
 
-    public static CardData getDeclinedCard() {
-        return new CardData("4444444444444442", "09", "24", "Popov Igor", "123");
+    public static CardData getInvalidCardholderNameIfNumeric() {
+        return new CardData("4444 4444 4444 4441", "09", "24", "5432 3232", "123");
+    }
+
+    public static CardData getInvalidCardholderNameIfWildcard() {
+        return new CardData("4444 4444 4444 4441", "09", "24", "#%№", "123");
+    }
+
+
+    public static CardData getInvalidCvvIfEmpty() {
+        return new CardData("4444 4444 4444 4441", "09", "24", "Popov Igor", "");
+    }
+
+    public static CardData getInvalidCvvIfOneSym() {
+        return new CardData("4444 4444 4444 4441", "09", "24", "Popov Igor", "1");
+    }
+
+    public static CardData getInvalidCvvIfTwoSym() {
+        return new CardData("4444 4444 4444 4441", "09", "24", "Popov Igor", "12");
     }
 
 }

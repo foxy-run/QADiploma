@@ -1,4 +1,5 @@
-package ru.netology.test.creditrequest;
+package ru.netology.tests.payment;
+
 
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -9,16 +10,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.Data;
 import ru.netology.data.SQL;
-import ru.netology.page.MainPage;
-import ru.netology.page.PaymentPage;
+import ru.netology.pages.MainPage;
+import ru.netology.pages.PaymentPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.netology.data.Data.*;
-import static ru.netology.data.Data.getValidCardNumberDeclined;
 import static ru.netology.data.SQL.*;
 
-public class CreditPayHappyPathTest {
+public class PayHappyPathTest {
     MainPage mainPage = new MainPage();
     PaymentPage paymentPage = new PaymentPage();
     private final Data.NumberOfMonth numberOfMonth = getValidNumberOfMonth();
@@ -44,19 +44,23 @@ public class CreditPayHappyPathTest {
     @BeforeEach
     void setUp() {
         open("http://localhost:8080");
-        mainPage.payWithCredit();
+        mainPage.payWithCard();
     }
 
     @Test
-    public void shouldSuccessCreditRequestIfValidApprovedCards() {
+    public void shouldSuccessPayIfValidApprovedCards() {
         val cardNumber = getValidCardNumberApproved();
         paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
         paymentPage.successNotification();
         val paymentId = getPaymentId();
         val expectedStatus = "APPROVED";
-        val actualStatus = getPaymentStatusForCreditRequest(paymentId);
+        val actualStatus = getPaymentStatus(paymentId);
+        val expectedAmount = "4500000";
+        val actualAmount = getAmountPayment(paymentId);
         assertEquals(expectedStatus, actualStatus);
+        assertEquals(expectedAmount, actualAmount);
     }
+
 
     @Test
     public void shouldFailurePayIfValidDeclinedCards() {
@@ -65,8 +69,7 @@ public class CreditPayHappyPathTest {
         paymentPage.failureNotification();
         val paymentId = getPaymentId();
         val expectedStatus = "DECLINED";
-        val actualStatus = getPaymentStatusForCreditRequest(paymentId);
+        val actualStatus = getPaymentStatus(paymentId);
         assertEquals(expectedStatus, actualStatus);
     }
-
 }

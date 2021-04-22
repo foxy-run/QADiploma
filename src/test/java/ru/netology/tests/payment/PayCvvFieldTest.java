@@ -1,7 +1,8 @@
-package ru.netology.test.payment;
+package ru.netology.tests.payment;
 
-
-import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.val;
@@ -11,21 +12,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.Data;
 import ru.netology.data.SQL;
-import ru.netology.page.MainPage;
-import ru.netology.page.PaymentPage;
+import ru.netology.pages.MainPage;
+import ru.netology.pages.PaymentPage;
 
+import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.netology.data.Data.*;
-import static ru.netology.data.SQL.*;
 
-public class PayHappyPathTest {
+public class PayCvvFieldTest {
     MainPage mainPage = new MainPage();
     PaymentPage paymentPage = new PaymentPage();
+    private final Data.CardNumber cardNumber = getValidCardNumberApproved();
     private final Data.NumberOfMonth numberOfMonth = getValidNumberOfMonth();
     private final Data.Year year = getValidYear();
     private final Data.Cardholder cardholder = getValidCardholderName();
-    private final Data.Cvv cvv = getValidCvv();
 
     @BeforeAll
     static void setUpAll() {
@@ -49,28 +49,26 @@ public class PayHappyPathTest {
     }
 
     @Test
-    public void shouldSuccessPayIfValidApprovedCards() {
-        val cardNumber = getValidCardNumberApproved();
+    public void shouldFailurePaymentIfEmptyCvv() {
+        val cvv = getInvalidCvvIfEmpty();
         paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.successNotification();
-        val paymentId = getPaymentId();
-        val expectedStatus = "APPROVED";
-        val actualStatus = getPaymentStatus(paymentId);
-        val expectedAmount = "4500000";
-        val actualAmount = getAmountPayment(paymentId);
-        assertEquals(expectedStatus, actualStatus);
-        assertEquals(expectedAmount, actualAmount);
+        final ElementsCollection fieldSub = $$(".input__sub");
+        final SelenideElement cvvFieldSub = fieldSub.get(2);
+        cvvFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
     }
-
 
     @Test
-    public void shouldFailurePayIfValidDeclinedCards() {
-        val cardNumber = getValidCardNumberDeclined();
+    public void shouldFailurePaymentIfCvvOneSym() {
+        val cvv = getInvalidCvvIfOneSym();
         paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.failureNotification();
-        val paymentId = getPaymentId();
-        val expectedStatus = "DECLINED";
-        val actualStatus = getPaymentStatus(paymentId);
-        assertEquals(expectedStatus, actualStatus);
+        paymentPage.improperFormatNotification();
     }
+
+    @Test
+    public void shouldFailurePaymentIfCvvTwoSym() {
+        val cvv = getInvalidCvvIfTwoSym();
+        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
+        paymentPage.improperFormatNotification();
+    }
+
 }

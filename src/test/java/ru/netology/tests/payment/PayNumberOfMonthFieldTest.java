@@ -1,4 +1,4 @@
-package ru.netology.test.creditrequest;
+package ru.netology.tests.payment;
 
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -9,19 +9,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.Data;
 import ru.netology.data.SQL;
-import ru.netology.page.MainPage;
-import ru.netology.page.PaymentPage;
+import ru.netology.pages.MainPage;
+import ru.netology.pages.PaymentPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static ru.netology.data.Data.*;
-import static ru.netology.data.Data.getInvalidCardholderNameIfWildcard;
 
-public class CreditPayCardholderFieldTest {
+public class PayNumberOfMonthFieldTest {
     MainPage mainPage = new MainPage();
     PaymentPage paymentPage = new PaymentPage();
     private final Data.CardNumber cardNumber = getValidCardNumberApproved();
-    private final Data.NumberOfMonth numberOfMonth = getValidNumberOfMonth();
     private final Data.Year year = getValidYear();
+    private final Data.Cardholder cardholder = getValidCardholderName();
     private final Data.Cvv cvv = getValidCvv();
 
     @BeforeAll
@@ -42,48 +41,35 @@ public class CreditPayCardholderFieldTest {
     @BeforeEach
     void setUp() {
         open("http://localhost:8080");
-        mainPage.payWithCredit();
+        mainPage.payWithCard();
     }
 
     @Test
-    public void shouldFailurePaymentIfEmptyCardholderName() {
-        val cardholder = getInvalidCardholderNameIfEmpty();
+    public void shouldFailurePaymentIfEmptyNumberOfMonth() {
+        val numberOfMonth = getInvalidNumberOfMonthIfEmpty();
         paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
         paymentPage.emptyFieldNotification();
     }
 
     @Test
-    public void shouldFailurePaymentIfNameOneWord() {
-        val cardholder = getInvalidCardholderNameIfOneWord();
+    public void shouldFailurePaymentIfNumberOfMonthIfOneSym() {
+        val numberOfMonth = getInvalidNumberOfMonthIfOneSym();
         paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
         paymentPage.improperFormatNotification();
     }
 
     @Test
-    public void shouldFailurePaymentIfNameThreeWords() {
-        val cardholder = getInvalidCardholderNameIfThreeWords();
+    public void shouldFailurePaymentIfNumberOfMonthIfMore12() {
+        val numberOfMonth = getInvalidNumberOfMonthIfMore12();
         paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.improperFormatNotification();
+        paymentPage.invalidExpiredDateNotification();
     }
 
     @Test
-    public void shouldFailurePaymentIfNameRusSym() {
-        val cardholder = getInvalidCardholderNameIfRusSym();
+    public void shouldFailurePaymentIfNumberOfMonthZero() {
+        val numberOfMonth = getInvalidNumberOfMonthIfZero();
         paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.improperFormatNotification();
+        paymentPage.invalidExpiredDateNotification();
     }
 
-    @Test
-    public void shouldFailurePaymentIfNameNumeric() {
-        val cardholder = getInvalidCardholderNameIfNumeric();
-        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.improperFormatNotification();
-    }
-
-    @Test
-    public void shouldFailurePaymentIfNameWildcard() {
-        val cardholder = getInvalidCardholderNameIfWildcard();
-        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.improperFormatNotification();
-    }
 }

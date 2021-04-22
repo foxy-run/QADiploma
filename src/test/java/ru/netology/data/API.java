@@ -17,7 +17,7 @@ public class API {
             .log(LogDetail.ALL)
             .build();
 
-    public static String PaymentPage (Data.CardData cardData) {
+    public static String PaymentPageForm (Data.CardData cardData) {
         return given()
                 .spec(requestSpec)
                 .body(cardData)

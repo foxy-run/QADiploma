@@ -1,4 +1,4 @@
-package ru.netology.page;
+package ru.netology.pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
@@ -27,12 +27,12 @@ public class PaymentPage {
 
     private final SelenideElement continueButton =  $$("button").find(exactText("Продолжить"));
 
-    public void fillCardData(Data.CardNumber cardNumber, Data.NumberOfMonth numberOfMonth, Data.Year year, Data.Cardholder cardholder, Data.Cvv cvv) {
-        cardNumberField.setValue(cardNumber.getCardNumber());
-        numberOfMonthField.setValue(numberOfMonth.getNumberOfMonth());
-        yearField.setValue(year.getYear());
-        cardholderField.setValue(cardholder.getCardholder());
-        cvvField.setValue(cvv.getCvv());
+    public void fillCardData(Data.CardData cardData) {
+        cardNumberField.setValue(cardData.getNumber());
+        numberOfMonthField.setValue(cardData.getMonth());
+        yearField.setValue(cardData.getYear());
+        cardholderField.setValue(cardData.getHolder());
+        cvvField.setValue(cardData.getCvv());
         continueButton.click();
     }
 
