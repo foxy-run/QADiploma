@@ -11,6 +11,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class PaymentPage {
+
     private final SelenideElement cardNumberField = $("input[placeholder='0000 0000 0000 0000']");
     private final SelenideElement numberOfMonthField = $("input[placeholder='08']");
     private final SelenideElement yearField = $("input[placeholder='22']");
@@ -36,27 +37,27 @@ public class PaymentPage {
         continueButton.click();
     }
 
-    public void improperFormatNotification() {
+    public void shouldImproperFormatNotification() {
         improperFormat.shouldBe(Condition.visible);
     }
 
-    public void emptyFieldNotification() {
+    public void shouldEmptyFieldNotification() {
         emptyField.shouldBe(Condition.visible);
     }
 
-    public void invalidExpiredDateNotification() {
+    public void shouldInvalidExpiredDateNotification() {
         invalidExpiredDate.shouldBe(Condition.visible);
     }
 
-    public void expiredDatePassNotification() {
+    public void shouldExpiredDatePassNotification() {
         expiredDatePass.shouldBe(Condition.visible);
     }
 
-    public void successNotification() {
+    public void shouldSuccessNotification() {
         successNote.waitUntil(Condition.visible, 15000);
     }
 
-    public void failureNotification() {
+    public void shouldFailureNotification() {
         failureNote.waitUntil(Condition.visible, 15000);
     }
 

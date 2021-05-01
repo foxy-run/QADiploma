@@ -7,6 +7,7 @@ import io.restassured.specification.RequestSpecification;
 
 import static io.restassured.RestAssured.given;
 
+
 public class API {
 
     public static RequestSpecification requestSpec = new RequestSpecBuilder()
@@ -24,11 +25,11 @@ public class API {
                 .when()
                 .post("/api/v1/pay")
                 .then()
-                .statusCode(200);
+                .statusCode(200)
                 .extract().response().asString();
     }
 
-    public static String CreditRequestPage (Data.CardData cardData) {
+    public static String CreditRequestPageForm (Data.CardData cardData) {
         return given()
                 .spec(requestSpec)
                 .body(cardData)
@@ -38,4 +39,5 @@ public class API {
                 .statusCode(200)
                 .extract().response().asString();
     }
+
 }

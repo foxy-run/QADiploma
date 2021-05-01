@@ -1,81 +1,56 @@
 package ru.netology.tests.creditrequest;
 
-import com.codeborne.selenide.logevents.SelenideLogger;
-import io.qameta.allure.selenide.AllureSelenide;
 import lombok.val;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.netology.data.Data;
-import ru.netology.data.SQL;
 import ru.netology.pages.MainPage;
 import ru.netology.pages.PaymentPage;
+import ru.netology.tests.TestBaseUI;
 
-import static com.codeborne.selenide.Selenide.open;
 import static ru.netology.data.Data.*;
 
-public class CreditPayYearFieldTest {
+public class CreditPayYearFieldTest extends TestBaseUI {
+
     MainPage mainPage = new MainPage();
     PaymentPage paymentPage = new PaymentPage();
-    private final Data.CardNumber cardNumber = getValidCardNumberApproved();
-    private final Data.NumberOfMonth numberOfMonth = getValidNumberOfMonth();
-    private final Data.Cardholder cardholder = getValidCardholderName();
-    private final Data.Cvv cvv = getValidCvv();
-
-    @BeforeAll
-    static void setUpAll() {
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-    }
-
-    @AfterAll
-    static void tearDownAll() {
-        SelenideLogger.removeListener("allure");
-    }
-
-    @AfterAll
-    static void cleanDataBases() {
-        SQL.dropDataBase();
-    }
 
     @BeforeEach
-    void setUp() {
-        open("http://localhost:8080");
+    void setUpForPayWithCredit() {
         mainPage.payWithCredit();
     }
 
     @Test
     public void shouldFailurePaymentIfEmptyYear() {
-        val year = getInvalidYearIfEmpty();
-        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.emptyFieldNotification();
+        val cardData = getInvalidYearIfEmpty();
+        paymentPage.fillCardData(cardData);
+        paymentPage.shouldEmptyFieldNotification();
     }
 
     @Test
     public void shouldFailurePaymentIfYearOneSym() {
-        val year = getInvalidYearIfOneSym();
-        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.improperFormatNotification();
+        val cardData = getInvalidYearIfOneSym();
+        paymentPage.fillCardData(cardData);
+        paymentPage.shouldImproperFormatNotification();
     }
 
     @Test
     public void shouldFailurePaymentIfYearBeforeCurrentYear() {
-        val year = getInvalidYearIfBeforeCurrentYear();
-        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.expiredDatePassNotification();
+        val cardData = getInvalidYearIfBeforeCurrentYear();
+        paymentPage.fillCardData(cardData);
+        paymentPage.shouldExpiredDatePassNotification();
     }
 
     @Test
     public void shouldFailurePaymentIfYearZero() {
-        val year = getInvalidYearIfZero();
-        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.invalidExpiredDateNotification();
+        val cardData = getInvalidYearIfZero();
+        paymentPage.fillCardData(cardData);
+        paymentPage.shouldInvalidExpiredDateNotification();
     }
 
     @Test
     public void shouldFailurePaymentIfYearInTheFarFuture() {
-        val year = getInvalidYearIfInTheFarFuture();
-        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.invalidExpiredDateNotification();
+        val cardData = getInvalidYearIfInTheFarFuture();
+        paymentPage.fillCardData(cardData);
+        paymentPage.shouldInvalidExpiredDateNotification();
     }
 }

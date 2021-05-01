@@ -3,55 +3,30 @@ package ru.netology.tests.creditrequest;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.logevents.SelenideLogger;
-import io.qameta.allure.selenide.AllureSelenide;
 import lombok.val;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.netology.data.Data;
-import ru.netology.data.SQL;
 import ru.netology.pages.MainPage;
 import ru.netology.pages.PaymentPage;
+import ru.netology.tests.TestBaseUI;
 
 import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.open;
 import static ru.netology.data.Data.*;
 
-public class CreditPayCvvFieldTest {
+public class CreditPayCvvFieldTest extends TestBaseUI {
+
     MainPage mainPage = new MainPage();
     PaymentPage paymentPage = new PaymentPage();
-    private final Data.CardNumber cardNumber = getValidCardNumberApproved();
-    private final Data.NumberOfMonth numberOfMonth = getValidNumberOfMonth();
-    private final Data.Year year = getValidYear();
-    private final Data.Cardholder cardholder = getValidCardholderName();
-
-    @BeforeAll
-    static void setUpAll() {
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-    }
-
-    @AfterAll
-    static void tearDownAll() {
-        SelenideLogger.removeListener("allure");
-    }
-
-    @AfterAll
-    static void cleanDataBases() {
-        SQL.dropDataBase();
-    }
 
     @BeforeEach
-    void setUp() {
-        open("http://localhost:8080");
+    void setUpForPayWithCredit() {
         mainPage.payWithCredit();
     }
 
     @Test
     public void shouldFailurePaymentIfEmptyCvv() {
-        val cvv = getInvalidCvvIfEmpty();
-        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
+        val cardData = getInvalidCvvIfEmpty();
+        paymentPage.fillCardData(cardData);
         final ElementsCollection fieldSub = $$(".input__sub");
         final SelenideElement cvvFieldSub = fieldSub.get(2);
         cvvFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
@@ -59,15 +34,22 @@ public class CreditPayCvvFieldTest {
 
     @Test
     public void shouldFailurePaymentIfCvvOneSym() {
-        val cvv = getInvalidCvvIfOneSym();
-        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.improperFormatNotification();
+        val cardData = getInvalidCvvIfOneSym();
+        paymentPage.fillCardData(cardData);
+        paymentPage.shouldImproperFormatNotification();
     }
 
     @Test
     public void shouldFailurePaymentIfCvvTwoSym() {
-        val cvv = getInvalidCvvIfTwoSym();
-        paymentPage.fillCardData(cardNumber, numberOfMonth, year, cardholder, cvv);
-        paymentPage.improperFormatNotification();
+        val cardData = getInvalidCvvIfTwoSym();
+        paymentPage.fillCardData(cardData);
+        paymentPage.shouldImproperFormatNotification();
+    }
+
+    @Test
+    public void shouldFailurePaymentIfCvvThreeZero() {
+        val cardData = getInvalidCvvIfThreeZero();
+        paymentPage.fillCardData(cardData);
+        paymentPage.shouldImproperFormatNotification();
     }
 }
