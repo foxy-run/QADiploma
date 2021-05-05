@@ -12,15 +12,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class SQL {
-    private static final String url = System.getProperty("db.url");
-    private static final String user = System.getProperty("db.user");
-    private static final String password = System.getProperty("db.password");
+public class SqlHelper {
+    private static final String URL = System.getProperty("db.url");
+    private static final String USER = System.getProperty("db.user");
+    private static final String PASSWORD = System.getProperty("db.password");
     private static Connection connection;
 
     public static Connection getConnection() {
         try {
-            connection = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -79,11 +79,11 @@ public class SQL {
     }
 
     public static String getPaymentIdForCreditRequest() {
-        val idQueryForCreditRequest = "SELECT * FROM app.order_entity";
+        val idQueryForCreditRequest = "SELECT * FROM app.credit_request_entity";
         val runner = new QueryRunner();
         try (val connection = getConnection()) {
-            val paymentId = runner.query(connection, idQueryForCreditRequest, new BeanHandler<>(OrderEntity.class));
-            return paymentId.getPayment_id();
+            val creditId = runner.query(connection, idQueryForCreditRequest, new BeanHandler<>(CreditRequestEntity.class));
+            return creditId.getCredit_id();
         } catch (SQLException e) {
             e.printStackTrace();
         }

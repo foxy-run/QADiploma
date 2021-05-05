@@ -6,7 +6,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import ru.netology.data.SQL;
+import ru.netology.data.SqlHelper;
 
 import static com.codeborne.selenide.Selenide.open;
 
@@ -23,7 +23,7 @@ public class TestBaseUI {
 
     @AfterEach
     void cleanDataBases() {
-        SQL.dropDataBase();
+        SqlHelper.dropDataBase();
     }
 
     @BeforeEach

@@ -8,7 +8,7 @@ import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
 
 
-public class API {
+public class ApiHelper {
 
     public static RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri("http://localhost")
@@ -18,7 +18,7 @@ public class API {
             .log(LogDetail.ALL)
             .build();
 
-    public static String PaymentPageForm (Data.CardData cardData) {
+    public static String paymentPageForm(Data.CardData cardData) {
         return given()
                 .spec(requestSpec)
                 .body(cardData)
@@ -29,7 +29,7 @@ public class API {
                 .extract().response().asString();
     }
 
-    public static String CreditRequestPageForm (Data.CardData cardData) {
+    public static String creditRequestPageForm(Data.CardData cardData) {
         return given()
                 .spec(requestSpec)
                 .body(cardData)
@@ -38,6 +38,10 @@ public class API {
                 .then()
                 .statusCode(200)
                 .extract().response().asString();
+    }
+
+    public String substring(int beginIndex) {
+        return null;
     }
 
 }
