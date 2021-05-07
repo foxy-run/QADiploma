@@ -35,7 +35,8 @@ docker-compose up
 - `java -Dspring.datasource.url=jdbc:mysql://localhost:3306/app -jar artifacts/aqa-shop.jar` - для MySQL
 - `java -Dspring.datasource-postgresql.url=jdbc:postgresql://localhost:5432/app -jar artifacts/aqa-shop.jar` - для PostgreSQL
 3. Приложение должно запуститься 
-![app run](https://user-images.githubusercontent.com/67016228/99146975-0077e100-268e-11eb-90d3-425239976d8f.jpg)
+![Screenshot_166](https://user-images.githubusercontent.com/69159399/117429040-4c199200-af2f-11eb-998f-9ee950ac99c1.png)
+
 работать по адресу http://localhost:8080/
 
 ## Запуск тестов
