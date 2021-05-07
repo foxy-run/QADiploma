@@ -48,31 +48,31 @@ docker-compose up
 
 **Вариант 1**
 
-1. В build.gradle изменить адрес БД. Для этого нужно заменить строчку `systemProperty 'db.url', System.getProperty('db.url')` на:
+1. В `build.gradle` изменить адрес БД. Для этого нужно заменить строчку `systemProperty 'db.url', System.getProperty('db.url')` на:
 - `systemProperty 'db.url', System.getProperty('db.url', 'jdbc:mysql://localhost:3306/app')` - для MySQL
 - `systemProperty 'db.url', System.getProperty('db.url', 'jdbc:postgresql://localhost:5432/app')` - для PostgreSQL
 
-2. Запустить приложение (раздел "[Запуск](https://github.com/foxy-run/QADiploma/blob/master/README.md#%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA)", в зависимости от БД)
+2. Запустить приложение (раздел [Запуск](https://github.com/foxy-run/QADiploma/blob/master/README.md#%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA), в зависимости от БД)
 3. Запустить необходимый тестовый класс командой в терминале: 
 
   ```
   gradlew clean test --tests PayHappyPathTest
   ``` 
-  где PayHappyPathTest - тестовый класс, подлежащий запуску. Или запустить необходимый тестовый класс через IDE с помощью команды Run.
+  где `PayHappyPathTest` - тестовый класс, подлежащий запуску. Или запустить необходимый тестовый класс через IDE с помощью команды Run.
 
 **Вариант 2**
 
-1. В build.gradle в раздел test добавить следующее:
+1. В `build.gradle` в раздел test добавить следующее:
   ```
   filter {
       includeTestsMatching('*PayHappyPathTest')
       }
   ```
-где PayHappyPathTest - тестовый класс, подлежащий запуску.
+где `PayHappyPathTest` - тестовый класс, подлежащий запуску.
 
-2. Выполнить раздел "[Запуск](https://github.com/foxy-run/QADiploma/blob/master/README.md#%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA)"
+2. Выполнить раздел [Запуск](https://github.com/foxy-run/QADiploma/blob/master/README.md#%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA)
 
-3. Выполнить раздел "Запуск тестов"
+3. Выполнить раздел [Запуск тестов](https://github.com/foxy-run/QADiploma/blob/master/README.md#%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA-%D1%82%D0%B5%D1%81%D1%82%D0%BE%D0%B2)
 
 ## Перезапуск приложения и тестов
 Если необходимо перезапустить приложение и/или тесты (например, для другой БД), необходимо выполнить остановку работы в запущенных ранее вкладках терминала, нажав в них Ctrl+С
