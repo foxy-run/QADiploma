@@ -52,7 +52,7 @@ docker-compose up
 - `systemProperty 'db.url', System.getProperty('db.url', 'jdbc:mysql://localhost:3306/app')` - для MySQL
 - `systemProperty 'db.url', System.getProperty('db.url', 'jdbc:postgresql://localhost:5432/app')` - для PostgreSQL
 
-2. Запустить приложение (раздел "Запуск", в зависимости от БД)
+2. Запустить приложение (раздел "[Запуск](https://github.com/foxy-run/QADiploma/blob/master/README.md#%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA)", в зависимости от БД)
 3. Запустить необходимый тестовый класс командой в терминале: 
 
   ```
@@ -70,7 +70,7 @@ docker-compose up
   ```
 где PayHappyPathTest - тестовый класс, подлежащий запуску.
 
-2. Выполнить раздел "Запуск"
+2. Выполнить раздел "[Запуск](https://github.com/foxy-run/QADiploma/blob/master/README.md#%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA)"
 
 3. Выполнить раздел "Запуск тестов"
 
