@@ -40,8 +40,5 @@ public class ApiHelper {
                 .extract().response().asString();
     }
 
-    public String substring(int beginIndex) {
-        return null;
-    }
 
 }

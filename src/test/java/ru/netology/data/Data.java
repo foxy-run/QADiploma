@@ -88,7 +88,8 @@ public class Data {
     }
 
     public static CardData getInvalidCardholderNameIfThreeWords() {
-        return new CardData("4444 4444 4444 4441", "09", "24", "Popov Igor Petrovich", "123");
+        return new CardData
+                ("4444 4444 4444 4441", "09", "24", "Popov Igor Petrovich", "123");
     }
 
     public static CardData getInvalidCardholderNameIfRusSym() {

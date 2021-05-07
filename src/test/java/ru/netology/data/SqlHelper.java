@@ -46,7 +46,8 @@ public class SqlHelper {
         String statusQuery = "SELECT * FROM app.payment_entity";
         val runner = new QueryRunner();
         try (Connection connection = getConnection()) {
-            val cardStatus = runner.query(connection, statusQuery, new BeanHandler<>(PaymentEntity.class));
+            val cardStatus = runner.query
+                    (connection, statusQuery, new BeanHandler<>(PaymentEntity.class));
             return cardStatus.getStatus();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -58,7 +59,8 @@ public class SqlHelper {
         String statusQuery = "SELECT * FROM app.credit_request_entity";
         val runner = new QueryRunner();
         try (Connection connection = getConnection()) {
-            val cardStatus = runner.query(connection, statusQuery, new BeanHandler<>(CreditRequestEntity.class));
+            val cardStatus = runner.query
+                    (connection, statusQuery, new BeanHandler<>(CreditRequestEntity.class));
             return cardStatus.getStatus();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -70,7 +72,8 @@ public class SqlHelper {
         val idQueryForCardPay = "SELECT * FROM app.order_entity";
         val runner = new QueryRunner();
         try (val connection = getConnection()) {
-            val paymentId = runner.query(connection, idQueryForCardPay, new BeanHandler<>(OrderEntity.class));
+            val paymentId = runner.query
+                    (connection, idQueryForCardPay, new BeanHandler<>(OrderEntity.class));
             return paymentId.getPayment_id();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,7 +85,8 @@ public class SqlHelper {
         val idQueryForCreditRequest = "SELECT * FROM app.credit_request_entity";
         val runner = new QueryRunner();
         try (val connection = getConnection()) {
-            val creditId = runner.query(connection, idQueryForCreditRequest, new BeanHandler<>(CreditRequestEntity.class));
+            val creditId = runner.query
+                    (connection, idQueryForCreditRequest, new BeanHandler<>(CreditRequestEntity.class));
             return creditId.getCredit_id();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,7 +98,8 @@ public class SqlHelper {
         val runner = new QueryRunner();
         String idTransactionQuery = "SELECT * FROM app.payment_entity";
         try (Connection connection = getConnection()) {
-            val transactionId = runner.query(connection, idTransactionQuery, new BeanHandler<>(PaymentEntity.class));
+            val transactionId = runner.query
+                    (connection, idTransactionQuery, new BeanHandler<>(PaymentEntity.class));
             return transactionId.getTransaction_id();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -106,7 +111,8 @@ public class SqlHelper {
         val runner = new QueryRunner();
         String amountQuery = "SELECT * FROM app.payment_entity";
         try (Connection connection = getConnection()) {
-            val transactionId = runner.query(connection, amountQuery, new BeanHandler<>(PaymentEntity.class));
+            val transactionId = runner.query
+                    (connection, amountQuery, new BeanHandler<>(PaymentEntity.class));
             return transactionId.getAmount();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -118,7 +124,8 @@ public class SqlHelper {
         String bankIdQuery = "SELECT * FROM app.credit_request_entity";
         val runner = new QueryRunner();
         try (Connection connection = getConnection()) {
-            val bankId = runner.query(connection, bankIdQuery, new BeanHandler<>(CreditRequestEntity.class));
+            val bankId = runner.query
+                    (connection, bankIdQuery, new BeanHandler<>(CreditRequestEntity.class));
             return bankId.getBank_id();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
