@@ -1,4 +1,3 @@
-
 package ru.netology.data;
 
 import lombok.val;
@@ -82,11 +81,11 @@ public class SqlHelper {
     }
 
     public static String getPaymentIdForCreditRequest() {
-        val idQueryForCreditRequest = "SELECT * FROM app.credit_request_entity";
+        val idQueryForCreditRequest = "SELECT * FROM app.order_entity";
         val runner = new QueryRunner();
         try (val connection = getConnection()) {
             val creditId = runner.query
-                    (connection, idQueryForCreditRequest, new BeanHandler<>(CreditRequestEntity.class));
+                    (connection, idQueryForCreditRequest, new BeanHandler<>(OrderEntity.class));
             return creditId.getCredit_id();
         } catch (SQLException e) {
             e.printStackTrace();

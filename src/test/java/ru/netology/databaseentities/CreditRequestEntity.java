@@ -11,5 +11,4 @@ public class CreditRequestEntity {
     String bank_id;
     String created;
     String status;
-    String credit_id;
 }
