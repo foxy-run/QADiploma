@@ -3,12 +3,14 @@ package ru.netology.tests.payment;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.netology.data.SqlHelper;
 import ru.netology.pages.MainPage;
 import ru.netology.pages.PaymentPage;
 import ru.netology.tests.TestBaseUI;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.sql.SQLException;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static ru.netology.data.Data.getApprovedCard;
 import static ru.netology.data.Data.getDeclinedCard;
 import static ru.netology.data.SqlHelper.*;
@@ -24,41 +26,33 @@ public class PayHappyPathTest extends TestBaseUI {
     }
 
     @Test
-    public void shouldSuccessPayIfValidApprovedCards() {
+    public void shouldSuccessPayIfValidApprovedCards() throws SQLException {
         val cardData = getApprovedCard();
         paymentPage.fillCardData(cardData);
         paymentPage.shouldSuccessNotification();
 
-        val expectedStatus = "APPROVED";
-        val actualStatus = getCardStatusForPayment();
-        assertEquals(expectedStatus, actualStatus);
-
-        val expectedAmount = "4500000";
-        val actualAmount = getAmountPayment();
-        assertEquals(expectedAmount, actualAmount);
-
-        val transactionIdExpected = getTransactionId();
-        val paymentIdActual = getPaymentIdForCardPay();
+        assertEquals( "APPROVED", SqlHelper.getPaymentStatus());
+        val transactionIdExpected = getPaymentStatus();
+        val paymentIdActual = getPaymentStatus();
         assertNotNull(transactionIdExpected);
         assertNotNull(paymentIdActual);
         assertEquals(transactionIdExpected, paymentIdActual);
     }
 
     @Test
-    public void shouldFailurePayIfValidDeclinedCards() {
+    public void shouldFailurePayIfValidDeclinedCards() throws SQLException {
         val cardData = getDeclinedCard();
         paymentPage.fillCardData(cardData);
         paymentPage.shouldFailureNotification();
 
-        val expectedStatus = "DECLINED";
-        val actualStatus = getCardStatusForPayment();
-        assertEquals(expectedStatus, actualStatus);
+        assertNotEquals("APPROVED",SqlHelper.getPaymentStatus());
 
-        val transactionIdExpected = getTransactionId();
-        val paymentIdActual = getPaymentIdForCardPay();
+        val transactionIdExpected = getPaymentStatus();
+        val paymentIdActual = getPaymentStatus();
         assertNotNull(transactionIdExpected);
         assertNotNull(paymentIdActual);
         assertEquals(transactionIdExpected, paymentIdActual);
     }
+
 
 }
